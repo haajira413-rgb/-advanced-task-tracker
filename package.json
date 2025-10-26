@@ -1,5 +1,5 @@
 {
-  "name": "rest-express",
+  "name": "advanced-task-tracker",
   "version": "1.0.0",
   "type": "module",
   "license": "MIT",
@@ -8,6 +8,7 @@
     "dev:server": "cross-env NODE_ENV=development tsx server/index.ts",
     "dev:client": "vite",
     "build": "vite build",
+    "start": "node dist/server/index.js",
     "preview": "vite preview",
     "check": "tsc"
   },
@@ -47,7 +48,8 @@
     "clsx": "^2.1.1",
     "cmdk": "^1.1.1",
     "connect-pg-simple": "^10.0.0",
-    "date-fns": "^4.1.0",
+    "date-fns": "^3.6.0",
+    "detect-node-es": "^1.1.0",
     "drizzle-orm": "^0.39.1",
     "drizzle-zod": "^0.7.0",
     "embla-carousel-react": "^8.6.0",
