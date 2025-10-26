@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
+import { TaskDialog } from "@/components/task-dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -87,10 +88,7 @@ export default function Tasks() {
           <h1 className="text-3xl font-bold tracking-tight">Tasks</h1>
           <p className="text-muted-foreground">Manage and organize your tasks</p>
         </div>
-        <Button data-testid="button-create-task">
-          <Plus className="h-4 w-4 mr-2" />
-          New Task
-        </Button>
+        <TaskDialog />
       </div>
 
       {/* Filters and Search */}
@@ -204,36 +202,30 @@ export default function Tasks() {
                         </DropdownMenu>
                       </div>
 
-                      <div className="flex flex-wrap items-center gap-2">
+                      {/* Task metadata */}
+                      <div className="flex flex-wrap items-center gap-3 text-sm">
                         <Badge
-                          className="text-xs"
+                          variant="secondary"
                           style={{
                             backgroundColor: priorityStyle.bg,
                             color: priorityStyle.text,
                           }}
                         >
+                          <Tag className="h-3 w-3 mr-1" />
                           {priorityStyle.label}
                         </Badge>
 
-                        {task.category && (
-                          <Badge variant="secondary" className="text-xs">
-                            <Tag className="h-3 w-3 mr-1" />
-                            {task.category}
-                          </Badge>
-                        )}
-
                         {task.dueDate && (
-                          <Badge variant="outline" className="text-xs">
-                            <Calendar className="h-3 w-3 mr-1" />
+                          <div className="flex items-center gap-1 text-muted-foreground">
+                            <Calendar className="h-3 w-3" />
                             {format(new Date(task.dueDate), "MMM d, yyyy")}
-                          </Badge>
+                          </div>
                         )}
 
-                        {task.tags && task.tags.length > 0 && task.tags.map((tag) => (
-                          <Badge key={tag} variant="outline" className="text-xs">
-                            {tag}
-                          </Badge>
-                        ))}
+                        <div className="flex items-center gap-1 text-muted-foreground">
+                          <Clock className="h-3 w-3" />
+                          {task.status.replace("_", " ")}
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -241,26 +233,15 @@ export default function Tasks() {
               </Card>
             );
           })}
-        </div>
-      )}
 
-      {/* Empty State */}
-      {!isLoading && filteredTasks.length === 0 && (
-        <Card className="py-12">
-          <CardContent className="flex flex-col items-center justify-center text-center">
-            <CheckCircle2 className="h-16 w-16 text-muted-foreground/50 mb-4" />
-            <h3 className="text-lg font-semibold mb-2">No tasks found</h3>
-            <p className="text-muted-foreground mb-6">
-              {searchQuery || filter !== "all"
-                ? "Try adjusting your filters"
-                : "Create your first task to get started"}
-            </p>
-            <Button>
-              <Plus className="h-4 w-4 mr-2" />
-              Create Task
-            </Button>
-          </CardContent>
-        </Card>
+          {filteredTasks.length === 0 && (
+            <Card className="p-12">
+              <div className="text-center text-muted-foreground">
+                <p>No tasks found</p>
+              </div>
+            </Card>
+          )}
+        </div>
       )}
     </div>
   );
